@@ -4,9 +4,9 @@
 # phon
 
 [![Travis build
-status](https://travis-ci.org/coolbutuseless/phon.svg?branch=master)](https://travis-ci.org/coolbutuseless/phon)[![Project
-Status: Active – The project has reached a stable, usable state and is
-being actively
+status](https://travis-ci.org/coolbutuseless/phon.svg?branch=master)](https://travis-ci.org/coolbutuseless/phon)[![codecov](https://codecov.io/gh/coolbutuseless/phon/branch/master/graph/badge.svg)](https://codecov.io/gh/coolbutuseless/phon)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 The goal of `phon` is to make available the CMU Pronouncing Dictionary
