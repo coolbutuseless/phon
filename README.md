@@ -4,7 +4,10 @@
 # phon
 
 [![Travis build
-status](https://travis-ci.org/coolbutuseless/phon.svg?branch=master)](https://travis-ci.org/coolbutuseless/phon)[![codecov](https://codecov.io/gh/coolbutuseless/phon/branch/master/graph/badge.svg)](https://codecov.io/gh/coolbutuseless/phon)
+status](https://travis-ci.org/coolbutuseless/phon.svg?branch=master)](https://travis-ci.org/coolbutuseless/phon)
+[![codecov](https://codecov.io/gh/coolbutuseless/phon/branch/master/graph/badge.svg)](https://codecov.io/gh/coolbutuseless/phon)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/coolbutuseless/phon?branch=master&svg=true)](https://ci.appveyor.com/project/coolbutuseless/phon)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
