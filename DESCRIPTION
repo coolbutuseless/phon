@@ -1,0 +1,20 @@
+Package: phon
+Type: Package
+Title: Utilities for Matching Word Phonemes
+Version: 0.1.0
+Author: mikefc
+Maintainer: mikefc <mikefc@coolbutuseless.com>
+Description: Utilities for matching word phonemes use the CMU Pronouncing
+    Dictionary.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 2.10)
+Suggests: 
+    testthat
+RoxygenNote: 6.1.1
+Imports: 
+    dplyr,
+    purrr,
+    utils
