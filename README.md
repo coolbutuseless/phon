@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# phon
+# phon <img src="man/figures/logo.png" align="right" height=230/>
 
 [![Travis build
 status](https://travis-ci.org/coolbutuseless/phon.svg?branch=master)](https://travis-ci.org/coolbutuseless/phon)
@@ -223,21 +223,21 @@ head(phon::create_cmudict_as_list())
 To get a copy of the data as a data.frame:
 
 ``` r
-phon::create_cmudict_as_data_frame()
-#> # A tibble: 133,854 x 4
-#>    word         phonemes                phonemes_sans_stresses   syllables
-#>    <chr>        <chr>                   <chr>                        <int>
-#>  1 !exclamatio… EH2 K S K L AH0 M EY1 … EH K S K L AH M EY SH A…         5
-#>  2 "\"close-qu… K L OW1 Z K W OW1 T     K L OW Z K W OW T                2
-#>  3 "\"double-q… D AH1 B AH0 L K W OW1 T D AH B AH L K W OW T             3
-#>  4 "\"end-of-q… EH1 N D AH0 V K W OW1 T EH N D AH V K W OW T             3
-#>  5 "\"end-quot… EH1 N D K W OW1 T       EH N D K W OW T                  2
-#>  6 "\"in-quote… IH1 N K W OW1 T S       IH N K W OW T S                  2
-#>  7 "\"quote"    K W OW1 T               K W OW T                         1
-#>  8 "\"unquote"  AH1 N K W OW1 T         AH N K W OW T                    2
-#>  9 #hash-mark   HH AE1 M AA2 R K        HH AE M AA R K                   2
-#> 10 #pound-sign  P AW1 N D S AY2 N       P AW N D S AY N                  2
-#> # ... with 133,844 more rows
+head(phon::create_cmudict_as_data_frame())
+#>                 word                                 phonemes
+#> 1 !exclamation-point EH2 K S K L AH0 M EY1 SH AH0 N P OY2 N T
+#> 2       "close-quote                      K L OW1 Z K W OW1 T
+#> 3      "double-quote                  D AH1 B AH0 L K W OW1 T
+#> 4      "end-of-quote                  EH1 N D AH0 V K W OW1 T
+#> 5         "end-quote                        EH1 N D K W OW1 T
+#> 6         "in-quotes                        IH1 N K W OW1 T S
+#>                phonemes_sans_stresses syllables
+#> 1 EH K S K L AH M EY SH AH N P OY N T         5
+#> 2                   K L OW Z K W OW T         2
+#> 3                D AH B AH L K W OW T         3
+#> 4                EH N D AH V K W OW T         3
+#> 5                     EH N D K W OW T         2
+#> 6                     IH N K W OW T S         2
 ```
 
 ## CMU Pronouncing Dictionary
