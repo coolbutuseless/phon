@@ -17,9 +17,19 @@ knitr::opts_chunk$set(
 [![Travis build status](https://travis-ci.org/coolbutuseless/phon.svg?branch=master)](https://travis-ci.org/coolbutuseless/phon)[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 
-The goal of phon is to make available the CMU Pronouncing Dictionary 
+The goal of `phon` is to make available the CMU Pronouncing Dictionary 
 ([**cmudict**](http://www.speech.cs.cmu.edu/cgi-bin/cmudict)) in an R friendly 
 format, and to collect some tools which use the pronunciation information.
+
+The CMU Pronouncing Dictionary includes pronunciations for 130,000 words. By matching
+the phonemes between words, this lets us find:
+
+* homophones e.g. `steak` and `stake`
+* rhymes e.g. `marry` and `actuary`
+* similar sounding words e.g. `statistics` and `stochastics`
+* words which contain the pronunciation of other words, e.g. `bathroom` contains 
+  the pronunciation of `threw`
+* syllable counts
 
 ## Installation
 
