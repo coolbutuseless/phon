@@ -18,8 +18,12 @@ similar_core <- function(this_phon, phoneme_mismatches = 1L) {
   }
 
   # scan every word to see how it matches the given phonetic encoding
-  idxs <- seq_along(cmu_phons) %>%
-    purrr::keep(~length(cmu_phons[[.x]]) == lpron && sum(cmu_phons[[.x]] != this_phon) <= phoneme_mismatches)
+  idxs <- seq_along(cmu_phons)
+
+  idxs <- Filter(
+    function(.x) {length(cmu_phons[[.x]]) == lpron && sum(cmu_phons[[.x]] != this_phon) <= phoneme_mismatches},
+    idxs
+  )
 
   cmu_words[idxs]
 }
@@ -41,20 +45,18 @@ similar_core <- function(this_phon, phoneme_mismatches = 1L) {
 #' @examples
 #' similar("statistics", phoneme_mismatches = 5)
 #'
-#' @import dplyr
-#' @import purrr
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 similar <- function(word, phoneme_mismatches = 1L) {
   word       <- tolower(word)
   this_phons <- cmu_phons[cmu_words == word]
 
-  similar_words <- this_phons %>%
-    purrr::map(~similar_core(.x, phoneme_mismatches)) %>%
-    flatten_chr() %>%
-    sort() %>%
-    unique()
+  similar_words <- lapply(this_phons, similar_core, phoneme_mismatches)
+  similar_words <- unique(sort(unlist(similar_words)))
 
+  if (is.null(similar_words)) {
+    return(character(0))
+  }
 
   # return a list of all matches, exluding the starting word
   setdiff(similar_words, word)

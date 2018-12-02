@@ -41,7 +41,7 @@ phonemes <- function(word, keep_stresses = TRUE) {
   res <- cmu_phons[idxs]
 
   if (!keep_stresses) {
-    res <- purrr::map(res, remove_stresses)
+    res <- lapply(res, remove_stresses)
   }
 
   res

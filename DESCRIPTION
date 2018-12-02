@@ -15,7 +15,3 @@ Suggests:
     testthat,
     covr
 RoxygenNote: 6.1.1
-Imports: 
-    dplyr,
-    purrr,
-    utils

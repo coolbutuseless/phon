@@ -15,11 +15,11 @@
 #' @examples
 #' create_cmudict_as_list()
 #'
-#' @import purrr
+#' @importFrom stats setNames
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 create_cmudict_as_list <- function() {
-  purrr::set_names(cmu_phons, cmu_words)
+  setNames(cmu_phons, cmu_words)
 }
 
 
@@ -40,12 +40,10 @@ create_cmudict_as_list <- function() {
 #' @examples
 #' create_cmudict_as_data_frame()
 #'
-#' @import dplyr
-#' @import purrr
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 create_cmudict_as_data_frame <- function() {
-  dplyr::data_frame(
+  data.frame(
     word                   = cmu_words,
     phonemes               = cmu_phons_orig,
     phonemes_sans_stresses = cmu_phons_orig_sans_stress,

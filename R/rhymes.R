@@ -14,7 +14,7 @@
 #' @return character vector of words (excluding the given word). returns
 #' \code{character(0)} if no rhymes found.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-rhymes_core <- function(word, match_length) {
+rhymes_core <- function(match_length, word) {
   word   <- tolower(word)
   idxs   <- which(cmu_words == word)
   groups <- unique(cmu_last_syls_group[[match_length]][idxs])
@@ -49,9 +49,6 @@ rhymes_core <- function(word, match_length) {
 #' @examples
 #' rhymes("drudgery")
 #'
-#' @import purrr
-#' @import dplyr
-#'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 rhymes <- function(word, match_length = 2:13) {
@@ -63,9 +60,9 @@ rhymes <- function(word, match_length = 2:13) {
     stop("No valid match_length specified")
   }
 
-  match_length %>%
-    purrr::map(~rhymes_core(word, .x)) %>%
-    purrr::set_names(match_length) %>%
-    purrr::discard(~length(.x) == 0L)
+  res <- lapply(match_length, rhymes_core, word)
+  res <- setNames(res, match_length)
+
+  Filter(function(x) {length(x) > 0}, res)
 }
 
