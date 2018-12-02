@@ -31,6 +31,11 @@ the phonemes between words, this lets us find:
   the pronunciation of `threw`
 * syllable counts
 
+
+This is a companion package to the [syn](http://syn.njtierney.com/) package in that
+`syn` finds related words based upon meanings, while `phon` finds related words based upon
+pronunciation.
+
 ## Installation
 
 You can install `phon` from github with:
