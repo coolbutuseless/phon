@@ -65,17 +65,18 @@ The goal of `phon` is to make available the CMU Pronouncing Dictionary
 format, and to collect some tools which use the pronunciation information.
 
 The CMU Pronouncing Dictionary includes pronunciations for 130,000 words. By matching
-the phonemes between words, this lets us find:
+the phonemes between words, `phon` provides
 
-* homophones e.g. `steak` and `stake`
-* rhymes e.g. `marry` and `actuary`
-* similar sounding words e.g. `statistics` and `stochastics`
-* words which contain the pronunciation of other words, e.g. `bathroom` contains 
-  the pronunciation of `threw`
-* syllable counts
+* `phonemes('threw')` - Returns the phonemes for the pronunciation of "threw".
+* `homophones('steak')` - Returns words which are homophones of "steak".
+* `rhymes('carry')` - Returns words which rhyme with "carry".
+* `sounds_similar('statistics')` - Returns words with a similar sound to
+  "statistics" by limiting the mismatches in phonemes the other word can have.
+* `contains_phonemes(c('TH', 'R', 'UW'))` Returns words which contain the given phoneme sequence.
+* `syllables("useless")` Returns the count of syllables in "useless".
 
 
-This is a companion package to the [syn](http://syn.njtierney.com/) package in that
+This is a companion package to the [syn](http://syn.njtierney.com/) package. 
 `syn` finds related words based upon meanings, while `phon` finds related words based upon
 pronunciation.
 
