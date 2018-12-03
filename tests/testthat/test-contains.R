@@ -14,7 +14,9 @@ test_that("contains_phonemes works", {
 
   # Test func is forgiving enough to accept a list
   phons <- phonemes("through")
-  res <- contains_phonemes(phons, keep_stresses = TRUE)
+  suppressWarnings({
+    res <- contains_phonemes(phons, keep_stresses = TRUE)
+  })
   expect_type(res, 'character')
   expect_true('throughput' %in% res)
 })

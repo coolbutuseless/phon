@@ -4,10 +4,12 @@
 \alias{rhymes}
 \title{Find rhymes for the given word}
 \usage{
-rhymes(word, match_length = 2:13)
+rhymes(word, keep_stresses = FALSE, match_length = 2:13)
 }
 \arguments{
 \item{word}{word for which to find rhymes}
+
+\item{keep_stresses}{keep the phoneme stresses? default: FALSE}
 
 \item{match_length}{how good a rhyme? the higher the number the more
 trailing phoneme matches between the word and any

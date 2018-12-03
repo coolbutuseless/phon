@@ -4,7 +4,7 @@
 \alias{rhymes_core}
 \title{Find rhymes for a given trailing phoneme match length}
 \usage{
-rhymes_core(match_length, word)
+rhymes_core(match_length, word, idxs, keep_stresses = FALSE)
 }
 \arguments{
 \item{match_length}{how good a rhyme? the higher the number the more
@@ -13,6 +13,10 @@ selected rhyming word. Use a range. Default: 2:13.
 Min = 2, Max = 13}
 
 \item{word}{word for which to find rhymes}
+
+\item{idxs}{the indices of the given word in the dictionary}
+
+\item{keep_stresses}{keep the phoneme stresses? default: FALSE}
 }
 \value{
 character vector of words (excluding the given word). returns

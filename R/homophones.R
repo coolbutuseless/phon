@@ -9,6 +9,8 @@
 #' finds all other words with the same phonemes.
 #'
 #' @param word find homophones for this word
+#' @param keep_stresses keep the stresses attached to each phonmeme? Default: FALSE
+#'        If FALSE, more likely to find homophones, but emphasis may be different.
 #'
 #' @return character vector of homophones.
 #'
@@ -18,12 +20,18 @@
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-homophones <- function(word) {
-  word   <- tolower(word)
-  idxs   <- which(cmu_words == word)
-  groups <- unique(cmu_hom_group[idxs])
+homophones <- function(word, keep_stresses = FALSE) {
+  idxs   <- get_word_idxs(word)
+
+  if (keep_stresses) {
+    homophone_group <- cmu_homophone_group
+  } else {
+    homophone_group <- cmu_homophone_group_sans_stress
+  }
+
+  groups <- unique(homophone_group[idxs])
   groups <- groups[groups != 0]
-  idxs   <- which(cmu_hom_group %in% groups)
+  idxs   <- which(homophone_group %in% groups)
 
   setdiff(cmu_words[idxs], word)
 }

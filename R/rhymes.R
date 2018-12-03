@@ -5,21 +5,24 @@
 #'
 #' Look up the word in the 'last_syls_group' data
 #'
-#' @param word word for which to find rhymes
-#' @param match_length how good a rhyme? the higher the number the more
-#'                     trailing phoneme matches between the word and any
-#'                     selected rhyming word. Use a range. Default: 2:13.
-#'                     Min = 2, Max = 13
+#' @inheritParams rhymes
+#' @param idxs the indices of the given word in the dictionary
 #'
 #' @return character vector of words (excluding the given word). returns
 #' \code{character(0)} if no rhymes found.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-rhymes_core <- function(match_length, word) {
-  word   <- tolower(word)
-  idxs   <- which(cmu_words == word)
-  groups <- unique(cmu_last_syls_group[[match_length]][idxs])
+rhymes_core <- function(match_length, word, idxs, keep_stresses = FALSE) {
+
+  if (keep_stresses) {
+    rhyme_group <- cmu_rhyme_group
+  } else {
+    rhyme_group <- cmu_rhyme_group_sans_stress
+  }
+
+
+  groups <- unique(rhyme_group[[match_length]][idxs])
   groups <- groups[groups != 0L]
-  idxs   <- which(cmu_last_syls_group[[match_length]] %in% groups)
+  idxs   <- which(rhyme_group[[match_length]] %in% groups)
 
   setdiff(cmu_words[idxs], word)
 }
@@ -42,7 +45,12 @@ rhymes_core <- function(match_length, word) {
 #' }
 #'
 #'
-#' @inheritParams rhymes_core
+#' @param match_length how good a rhyme? the higher the number the more
+#'                     trailing phoneme matches between the word and any
+#'                     selected rhyming word. Use a range. Default: 2:13.
+#'                     Min = 2, Max = 13
+#' @param word word for which to find rhymes
+#' @param keep_stresses keep the phoneme stresses? default: FALSE
 #'
 #' @return list of rhymes separated by rhyme intensity level
 #'
@@ -51,7 +59,7 @@ rhymes_core <- function(match_length, word) {
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-rhymes <- function(word, match_length = 2:13) {
+rhymes <- function(word, keep_stresses = FALSE, match_length = 2:13) {
   match_length <- as.integer(sort(match_length, decreasing = TRUE))
   match_length <- match_length[match_length >= 2L & match_length <= 13L]
   match_length <- match_length[!is.na(match_length)]
@@ -60,9 +68,12 @@ rhymes <- function(word, match_length = 2:13) {
     stop("No valid match_length specified")
   }
 
-  res <- lapply(match_length, rhymes_core, word)
-  res <- setNames(res, match_length)
+  idxs <- get_word_idxs(word)
 
+  res  <- lapply(match_length, rhymes_core, word, idxs, keep_stresses)
+  res  <- setNames(res, match_length)
+
+  # Only keep rhyme groups with matches
   Filter(function(x) {length(x) > 0}, res)
 }
 

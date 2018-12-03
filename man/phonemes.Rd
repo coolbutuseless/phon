@@ -4,12 +4,12 @@
 \alias{phonemes}
 \title{Return phonemes for the given word}
 \usage{
-phonemes(word, keep_stresses = TRUE)
+phonemes(word, keep_stresses = FALSE)
 }
 \arguments{
 \item{word}{word to lookup in CMU Pronouncing Dictionary}
 
-\item{keep_stresses}{keep the stresses attached to each phonmeme? default: TRUE.}
+\item{keep_stresses}{keep the phoneme stresses? default: FALSE}
 }
 \value{
 list of character vectors. Each character vector is one variation on

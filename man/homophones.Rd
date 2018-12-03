@@ -4,10 +4,13 @@
 \alias{homophones}
 \title{Find all homophones of the given word}
 \usage{
-homophones(word)
+homophones(word, keep_stresses = FALSE)
 }
 \arguments{
 \item{word}{find homophones for this word}
+
+\item{keep_stresses}{keep the stresses attached to each phonmeme? Default: FALSE
+If FALSE, more likely to find homophones, but emphasis may be different.}
 }
 \value{
 character vector of homophones.

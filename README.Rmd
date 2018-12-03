@@ -120,7 +120,8 @@ You can ask for phonemes without the stress markers, e.g.
 
 ```{r}
 phon::phonemes("fantastic")
-phon::phonemes("fantastic", keep_stresses = FALSE)
+
+phon::phonemes("fantastic", keep_stresses = TRUE)
 ```
 
 
@@ -134,6 +135,7 @@ This is pre-calculated and available through the `phon::syllables()` function.
 
 ```{r}
 phon::syllables("average")
+
 phon::syllables("antidisestablishmentarianism")
 ```
 
@@ -169,6 +171,7 @@ Homophones are words with the same pronunciation but different spelling.
 
 ```{r}
 phon::homophones("steak")
+
 phon::homophones("carry")
 ```
 
@@ -218,32 +221,8 @@ Similar sounding words are found by comparing words with the same number
 of phonemes but with a number of mismatches allowed.
 
 ```{r}
-phon::similar("statistics", phoneme_mismatches = 5)
+phon::sounds_similar("statistics", phoneme_mismatches = 5)
 ```
-
-
-## Accessing the raw data
-
-The actual *cmudict* data is stored within the package in a 
-number of pre-processed forms. This reduces overall memory footprint, 
-and enables faster lookups of information about each word.
-
-If you'd like to take this data external to `phon` and do something with it,
-then there are two functions for exporting the data: `create_cmudict_as_list()`
-and `create_cmudict_as_data_frame()`
-
-To get a copy of the data as a list:
-
-```{r}
-head(phon::create_cmudict_as_list())
-```
-
-To get a copy of the data as a data.frame:
-
-```{r}
-head(phon::create_cmudict_as_data_frame())
-```
-
 
 
 ## CMU Pronouncing Dictionary

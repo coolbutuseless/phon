@@ -1,7 +1,7 @@
 Package: phon
 Type: Package
 Title: Utilities for Matching Word Phonemes
-Version: 0.1.0
+Version: 0.1.1
 Author: mikefc
 Maintainer: mikefc <mikefc@coolbutuseless.com>
 Description: Utilities for matching word phonemes use the CMU Pronouncing

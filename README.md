@@ -50,7 +50,7 @@ encodes words using [ARPABET](https://en.wikipedia.org/wiki/ARPABET).
 ``` r
 phon::phonemes("cellar")
 #> [[1]]
-#> [1] "S"   "EH1" "L"   "ER0"
+#> [1] "S"  "EH" "L"  "ER"
 ```
 
 Since some words have mutliple pronunciations, the results of
@@ -60,10 +60,10 @@ slightly different pronunciations.
 ``` r
 phon::phonemes("carry")
 #> [[1]]
-#> [1] "K"   "AE1" "R"   "IY0"
+#> [1] "K"  "AE" "R"  "IY"
 #> 
 #> [[2]]
-#> [1] "K"   "EH1" "R"   "IY0"
+#> [1] "K"  "EH" "R"  "IY"
 ```
 
 ARPABET phonetic encoding includes stress markers as suffixes to vowel
@@ -78,10 +78,11 @@ You can ask for phonemes without the stress markers, e.g.
 ``` r
 phon::phonemes("fantastic")
 #> [[1]]
-#> [1] "F"   "AE0" "N"   "T"   "AE1" "S"   "T"   "IH0" "K"
-phon::phonemes("fantastic", keep_stresses = FALSE)
-#> [[1]]
 #> [1] "F"  "AE" "N"  "T"  "AE" "S"  "T"  "IH" "K"
+
+phon::phonemes("fantastic", keep_stresses = TRUE)
+#> [[1]]
+#> [1] "F"   "AE0" "N"   "T"   "AE1" "S"   "T"   "IH0" "K"
 ```
 
 ## Syllables
@@ -95,6 +96,7 @@ function.
 ``` r
 phon::syllables("average")
 #> [1] 3
+
 phon::syllables("antidisestablishmentarianism")
 #> [1] 12
 ```
@@ -110,7 +112,7 @@ pronunciation.
 ``` r
 through <- phon::phonemes("through")[[1]]
 through
-#> [1] "TH"  "R"   "UW1"
+#> [1] "TH" "R"  "UW"
 ```
 
 ``` r
@@ -132,6 +134,7 @@ Homophones are words with the same pronunciation but different spelling.
 ``` r
 phon::homophones("steak")
 #> [1] "stake"
+
 phon::homophones("carry")
 #>  [1] "carey"  "carie"  "carrey" "carrie" "cary"   "kairey" "kari"  
 #>  [8] "karry"  "kary"   "kerrey" "kerri"  "kerry"
@@ -180,64 +183,10 @@ Similar sounding words are found by comparing words with the same number
 of phonemes but with a number of mismatches allowed.
 
 ``` r
-phon::similar("statistics", phoneme_mismatches = 5)
+phon::sounds_similar("statistics", phoneme_mismatches = 5)
 #>  [1] "anaesthetics" "anesthetics"  "centronics"   "gymnastics"  
 #>  [5] "heuristics"   "onomastics"   "scientific's" "scientifics" 
 #>  [9] "statistics'"  "stochastics"  "subsistence"  "synbiotics"
-```
-
-## Accessing the raw data
-
-The actual *cmudict* data is stored within the package in a number of
-pre-processed forms. This reduces overall memory footprint, and enables
-faster lookups of information about each word.
-
-If you’d like to take this data external to `phon` and do something with
-it, then there are two functions for exporting the data:
-`create_cmudict_as_list()` and `create_cmudict_as_data_frame()`
-
-To get a copy of the data as a list:
-
-``` r
-head(phon::create_cmudict_as_list())
-#> $`!exclamation-point`
-#>  [1] "EH2" "K"   "S"   "K"   "L"   "AH0" "M"   "EY1" "SH"  "AH0" "N"  
-#> [12] "P"   "OY2" "N"   "T"  
-#> 
-#> $`"close-quote`
-#> [1] "K"   "L"   "OW1" "Z"   "K"   "W"   "OW1" "T"  
-#> 
-#> $`"double-quote`
-#> [1] "D"   "AH1" "B"   "AH0" "L"   "K"   "W"   "OW1" "T"  
-#> 
-#> $`"end-of-quote`
-#> [1] "EH1" "N"   "D"   "AH0" "V"   "K"   "W"   "OW1" "T"  
-#> 
-#> $`"end-quote`
-#> [1] "EH1" "N"   "D"   "K"   "W"   "OW1" "T"  
-#> 
-#> $`"in-quotes`
-#> [1] "IH1" "N"   "K"   "W"   "OW1" "T"   "S"
-```
-
-To get a copy of the data as a data.frame:
-
-``` r
-head(phon::create_cmudict_as_data_frame())
-#>                 word                                 phonemes
-#> 1 !exclamation-point EH2 K S K L AH0 M EY1 SH AH0 N P OY2 N T
-#> 2       "close-quote                      K L OW1 Z K W OW1 T
-#> 3      "double-quote                  D AH1 B AH0 L K W OW1 T
-#> 4      "end-of-quote                  EH1 N D AH0 V K W OW1 T
-#> 5         "end-quote                        EH1 N D K W OW1 T
-#> 6         "in-quotes                        IH1 N K W OW1 T S
-#>                phonemes_sans_stresses syllables
-#> 1 EH K S K L AH M EY SH AH N P OY N T         5
-#> 2                   K L OW Z K W OW T         2
-#> 3                D AH B AH L K W OW T         3
-#> 4                EH N D AH V K W OW T         3
-#> 5                     EH N D K W OW T         2
-#> 6                     IH N K W OW T S         2
 ```
 
 ## CMU Pronouncing Dictionary

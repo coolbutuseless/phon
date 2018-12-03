@@ -1,18 +1,6 @@
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Remove stresses from phonemes
-#'
-#' @param x phonemes
-#'
-#' @return modified phonemes with stresses removed
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-remove_stresses <- function(x) {
-  gsub("[012]", "", x)
-}
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Return phonemes for the given word
 #'
 #' This function returns the original phonemes as provided in \code{cmudict}.
@@ -23,7 +11,7 @@ remove_stresses <- function(x) {
 #' a list of character vectors - one for each pronunciation of the given word.
 #'
 #' @param word word to lookup in CMU Pronouncing Dictionary
-#' @param keep_stresses keep the stresses attached to each phonmeme? default: TRUE.
+#' @param keep_stresses keep the phoneme stresses? default: FALSE
 #'
 #' @return list of character vectors. Each character vector is one variation on
 #'         the pronunciation of the given word. The character vectors are the
@@ -34,9 +22,8 @@ remove_stresses <- function(x) {
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-phonemes <- function(word, keep_stresses = TRUE) {
-  word <- tolower(word)
-  idxs <- which(cmu_words == word)
+phonemes <- function(word, keep_stresses = FALSE) {
+  idxs   <- get_word_idxs(word)
 
   res <- cmu_phons[idxs]
 

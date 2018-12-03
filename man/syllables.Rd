@@ -4,10 +4,14 @@
 \alias{syllables}
 \title{Number of syllables in a word}
 \usage{
-syllables(word)
+syllables(word, first_only = TRUE)
 }
 \arguments{
 \item{word}{count syllables in these word}
+
+\item{first_only}{If TRUE, only return the syllable count for the first pronunciation
+of the word, otherwise return all syllable counts for all
+pronunciations. Default: TRUE}
 }
 \value{
 Vector of counts of syllables in words. Returns \code{NA_Integer} if word

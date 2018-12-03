@@ -8,7 +8,7 @@
 #'
 #' @import utils
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-similar_core <- function(this_phon, phoneme_mismatches = 1L) {
+sounds_similar_core <- function(this_phon, phoneme_mismatches = 1L) {
   lpron <- length(this_phon)
   tpron <- utils::tail(this_phon, 1L)
 
@@ -43,15 +43,15 @@ similar_core <- function(this_phon, phoneme_mismatches = 1L) {
 #' @return character vector of similar words
 #'
 #' @examples
-#' similar("statistics", phoneme_mismatches = 5)
+#' sounds_similar("statistics", phoneme_mismatches = 5)
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-similar <- function(word, phoneme_mismatches = 1L) {
-  word       <- tolower(word)
-  this_phons <- cmu_phons[cmu_words == word]
+sounds_similar <- function(word, phoneme_mismatches = 1L) {
+  idxs       <- get_word_idxs(word)
+  this_phons <- cmu_phons[idxs]
 
-  similar_words <- lapply(this_phons, similar_core, phoneme_mismatches)
+  similar_words <- lapply(this_phons, sounds_similar_core, phoneme_mismatches)
   similar_words <- unique(sort(unlist(similar_words)))
 
   if (is.null(similar_words)) {
