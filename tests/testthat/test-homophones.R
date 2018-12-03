@@ -5,6 +5,12 @@ test_that("homophones works", {
   expect_type(res, 'character')
   expect_true(length(res) > 0)
   expect_true('carie' %in% res)
+
+
+  res <- homophones('carry', keep_stresses = TRUE)
+  expect_type(res, 'character')
+  expect_true(length(res) > 0)
+  expect_true('carie' %in% res)
 })
 
 
