@@ -14,7 +14,8 @@ rhymes(word, keep_stresses = FALSE, min_phonemes = 2L)
 \item{min_phonemes}{the minimum number of matching phonemes. Default: 2L}
 }
 \value{
-list of rhymes separated by rhyme intensity level
+list of rhymes grouped by number of mathching trailing phonemes with
+the supplied word
 }
 \description{
 To find rhymes, \code{phon} compares trailing phonemes i.e. if the phonemes at the end of a

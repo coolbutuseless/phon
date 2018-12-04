@@ -58,8 +58,8 @@ phon::phonemes("cellar")
 ```
 
 Since some words have mutliple pronunciations, the results of
-`phon::phonemes()` is always returned as a list, e.g. *carry* has two
-slightly different pronunciations.
+`phon::phonemes()` can be a vector with more than 1 element,
+e.g. *carry* has two slightly different pronunciations.
 
 ``` r
 phon::phonemes("carry")
@@ -85,11 +85,8 @@ phon::phonemes("fantastic", keep_stresses = TRUE)
 
 ## Syllables
 
-The number of syllables in a word is the count of the number of phonemes
-with stress markers in the word.
-
-This is pre-calculated and available through the `phon::syllables()`
-function.
+The number of syllables in a word is obtained by counting of the number
+of phonemes with stress markers.
 
 ``` r
 phon::syllables("average")
@@ -148,8 +145,6 @@ The rhymes are returned in multiple vectors:
 
   - Words with the most matching trailing phonemes are returned first.
   - Subsequent vectors have fewer matching trailing phonemes.
-  - The names of the list are the number of trailing phonemes which
-    match.
 
 <!-- end list -->
 
@@ -157,12 +152,12 @@ The rhymes are returned in multiple vectors:
 phon::rhymes("drudgery")
 ```
 
-    $`3`
+    [[1]]
      [1] "challengery"  "forgery"      "gingery"      "injury"       "margery"     
      [6] "marjorie"     "marjory"      "menagerie"    "neurosurgery" "perjury"     
     [11] "surgery"     
     
-    $`2`
+    [[2]]
       [1] "acary"           "accessory"       "adoree"          "adultery"       
       [5] "advisory"        "alimentary"      "alphandery"      "ambery"         
       [9] .... (results trimmed)

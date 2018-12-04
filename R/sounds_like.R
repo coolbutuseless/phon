@@ -61,7 +61,7 @@ sounds_like <- function(word, phoneme_mismatches = 1L) {
     return(character(0))
   }
 
-  # return a list of all matches, exluding the starting word
+  # return a character vector of all matches, exluding the starting word
   setdiff(similar_words, word)
 }
 

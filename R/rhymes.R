@@ -17,7 +17,8 @@
 #' @param keep_stresses keep the phoneme stresses? default: FALSE
 #' @param min_phonemes the minimum number of matching phonemes. Default: 2L
 #'
-#' @return list of rhymes separated by rhyme intensity level
+#' @return list of rhymes grouped by number of mathching trailing phonemes with
+#' the supplied word
 #'
 #' @examples
 #' rhymes("drudgery")
