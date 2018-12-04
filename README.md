@@ -131,11 +131,11 @@ Homophones are words with the same pronunciation but different spelling.
 
 ``` r
 phon::homophones("steak")
-#> [1] "stake" "steak"
+#> [1] "stake"
 
 phon::homophones("carry")
-#>  [1] "carey"  "carie"  "carrey" "carrie" "carry"  "carry"  "cary"  
-#>  [8] "kairey" "kari"   "karry"  "kary"   "kerrey" "kerri"  "kerry"
+#>  [1] "carey"  "carie"  "carrey" "carrie" "cary"   "kairey" "kari"  
+#>  [8] "karry"  "kary"   "kerrey" "kerri"  "kerry"
 ```
 
 ## Rhymes
