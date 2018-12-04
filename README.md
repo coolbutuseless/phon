@@ -25,9 +25,9 @@ words. By matching the phonemes between words, `phon` provides
   - `homophones('steak')` - Returns words which are homophones of
     “steak”.
   - `rhymes('carry')` - Returns words which rhyme with “carry”.
-  - `sounds_similar('statistics')` - Returns words with a similar sound
-    to “statistics” by limiting the mismatches in phonemes the other
-    word can have.
+  - `sounds_like('statistics')` - Returns words with a similar sound to
+    “statistics” by limiting the mismatches in phonemes the other word
+    can have.
   - `contains_phonemes(c('TH', 'R', 'UW'))` Returns words which contain
     the given phoneme sequence.
   - `syllables("useless")` Returns the count of syllables in “useless”.
@@ -54,8 +54,7 @@ encodes words using [ARPABET](https://en.wikipedia.org/wiki/ARPABET).
 
 ``` r
 phon::phonemes("cellar")
-#> [[1]]
-#> [1] "S"  "EH" "L"  "ER"
+#> [1] "S EH L ER"
 ```
 
 Since some words have mutliple pronunciations, the results of
@@ -64,11 +63,7 @@ slightly different pronunciations.
 
 ``` r
 phon::phonemes("carry")
-#> [[1]]
-#> [1] "K"  "AE" "R"  "IY"
-#> 
-#> [[2]]
-#> [1] "K"  "EH" "R"  "IY"
+#> [1] "K AE R IY" "K EH R IY"
 ```
 
 ARPABET phonetic encoding includes stress markers as suffixes to vowel
@@ -82,12 +77,10 @@ You can ask for phonemes without the stress markers, e.g.
 
 ``` r
 phon::phonemes("fantastic")
-#> [[1]]
-#> [1] "F"  "AE" "N"  "T"  "AE" "S"  "T"  "IH" "K"
+#> [1] "F AE N T AE S T IH K"
 
 phon::phonemes("fantastic", keep_stresses = TRUE)
-#> [[1]]
-#> [1] "F"   "AE0" "N"   "T"   "AE1" "S"   "T"   "IH0" "K"
+#> [1] "F AE0 N T AE1 S T IH0 K"
 ```
 
 ## Syllables
@@ -117,7 +110,7 @@ pronunciation.
 ``` r
 through <- phon::phonemes("through")[[1]]
 through
-#> [1] "TH" "R"  "UW"
+#> [1] "TH R UW"
 ```
 
 ``` r
@@ -138,11 +131,11 @@ Homophones are words with the same pronunciation but different spelling.
 
 ``` r
 phon::homophones("steak")
-#> [1] "stake"
+#> [1] "stake" "steak"
 
 phon::homophones("carry")
-#>  [1] "carey"  "carie"  "carrey" "carrie" "cary"   "kairey" "kari"  
-#>  [8] "karry"  "kary"   "kerrey" "kerri"  "kerry"
+#>  [1] "carey"  "carie"  "carrey" "carrie" "carry"  "carry"  "cary"  
+#>  [8] "kairey" "kari"   "karry"  "kary"   "kerrey" "kerri"  "kerry"
 ```
 
 ## Rhymes
@@ -188,7 +181,7 @@ Similar sounding words are found by comparing words with the same number
 of phonemes but with a number of mismatches allowed.
 
 ``` r
-phon::sounds_similar("statistics", phoneme_mismatches = 5)
+phon::sounds_like("statistics", phoneme_mismatches = 5)
 #>  [1] "anaesthetics" "anesthetics"  "centronics"   "gymnastics"  
 #>  [5] "heuristics"   "onomastics"   "scientific's" "scientifics" 
 #>  [9] "statistics'"  "stochastics"  "subsistence"  "synbiotics"

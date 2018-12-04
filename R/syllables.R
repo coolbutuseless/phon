@@ -18,21 +18,25 @@
 #' syllables("average")
 #' syllables("antidisestablishmentarianism")
 #'
+#' @import stringr
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 syllables <- function(word, first_only = TRUE) {
-  idxs <- get_word_idxs(word)
 
-  if (length(idxs) == 0L) {
+
+  phons <- cmudict[names(cmudict) == word]
+
+  if (length(phons) == 0L) {
     # Word not in dictionary
     return(NA_integer_)
   }
 
+
   if (first_only) {
     # Only do the first pronunciation
-    idx  <- idxs[1]
+    phons  <- phons[1]
   }
 
-  cmu_syls[idx]
+  stringr::str_count(phons, "[012]")
 }
 

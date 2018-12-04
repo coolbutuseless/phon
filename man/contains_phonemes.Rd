@@ -7,7 +7,7 @@
 contains_phonemes(phonemes, keep_stresses = FALSE)
 }
 \arguments{
-\item{phonemes}{a character vector of phonemes to look for}
+\item{phonemes}{a character string of phonemes to look for}
 
 \item{keep_stresses}{keep the stresses attached to each phonmeme? default: FALSE
 If FALSE, more likely to find matches, but may be less accurate.}

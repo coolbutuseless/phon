@@ -4,17 +4,14 @@
 \alias{rhymes}
 \title{Find rhymes for the given word}
 \usage{
-rhymes(word, keep_stresses = FALSE, match_length = 2:13)
+rhymes(word, keep_stresses = FALSE, min_phonemes = 2L)
 }
 \arguments{
 \item{word}{word for which to find rhymes}
 
 \item{keep_stresses}{keep the phoneme stresses? default: FALSE}
 
-\item{match_length}{how good a rhyme? the higher the number the more
-trailing phoneme matches between the word and any
-selected rhyming word. Use a range. Default: 2:13.
-Min = 2, Max = 13}
+\item{min_phonemes}{the minimum number of matching phonemes. Default: 2L}
 }
 \value{
 list of rhymes separated by rhyme intensity level
@@ -29,9 +26,6 @@ The rhymes are returned in multiple vectors:
 \item{Words with the most matching trailing phonemes are returned first.}
 \item{Subsequent vectors have fewer matching trailing phonemes.}
 \item{Words in earlier vectors are repeated in later vectors.}
-\item{The names of the list are the number of trailing phonemes which match.}
-\item{If there are no rhymes of the given match length, then no space in the
-      returned list is reserved for this empty vector.}
 }
 }
 \examples{

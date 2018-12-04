@@ -18,21 +18,21 @@
 #' homophones("steak")
 #' homophones("carry")
 #'
+#' @import stringr
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 homophones <- function(word, keep_stresses = FALSE) {
-  idxs   <- get_word_idxs(word)
-
   if (keep_stresses) {
-    homophone_group <- cmu_homophone_group
+    phons_dict <- cmudict
   } else {
-    homophone_group <- cmu_homophone_group_sans_stress
+    phons_dict <- remove_stresses(cmudict)
   }
 
-  groups <- unique(homophone_group[idxs])
-  groups <- groups[groups != 0]
-  idxs   <- which(homophone_group %in% groups)
+  phons <- phons_dict[names(cmudict) == word]
 
-  setdiff(cmu_words[idxs], word)
+  idxs <- lapply(phons, function(x) { which(phons_dict == x) })
+  idxs <- sort(unique(unlist(idxs)))
+
+  setdiff(names(cmudict[idxs]), word)
 }
 

@@ -13,6 +13,12 @@ test_that("can calculate rhymes", {
   expect_equal(res[[1]][1], 'buccheri')
 
 
+  # 'a' only has one phoneme, and will rhyme with nothing
+  # given the default of min_phonemes = 2
+  res <- rhymes('a', min_phonemes = 2)
+  expect_length(res, 0)
 
-  expect_error(rhymes('carry', match_length = 1), "No valid match_length specified")
+
+  res <- rhymes('a', min_phonemes = 1)
+  expect_length(res, 1)
 })

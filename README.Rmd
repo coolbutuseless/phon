@@ -70,7 +70,7 @@ the phonemes between words, `phon` provides
 * `phonemes('threw')` - Returns the phonemes for the pronunciation of "threw".
 * `homophones('steak')` - Returns words which are homophones of "steak".
 * `rhymes('carry')` - Returns words which rhyme with "carry".
-* `sounds_similar('statistics')` - Returns words with a similar sound to
+* `sounds_like('statistics')` - Returns words with a similar sound to
   "statistics" by limiting the mismatches in phonemes the other word can have.
 * `contains_phonemes(c('TH', 'R', 'UW'))` Returns words which contain the given phoneme sequence.
 * `syllables("useless")` Returns the count of syllables in "useless".
@@ -222,7 +222,7 @@ Similar sounding words are found by comparing words with the same number
 of phonemes but with a number of mismatches allowed.
 
 ```{r}
-phon::sounds_similar("statistics", phoneme_mismatches = 5)
+phon::sounds_like("statistics", phoneme_mismatches = 5)
 ```
 
 

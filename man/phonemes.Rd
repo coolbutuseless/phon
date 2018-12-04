@@ -12,18 +12,12 @@ phonemes(word, keep_stresses = FALSE)
 \item{keep_stresses}{keep the phoneme stresses? default: FALSE}
 }
 \value{
-list of character vectors. Each character vector is one variation on
+Character vector. Each entry is one variation on
         the pronunciation of the given word. The character vectors are the
         ARPABET phonetic transcription codes of the word
 }
 \description{
 This function returns the original phonemes as provided in \code{cmudict}.
-The phonemes have been processed into a vector of individual phonemes rather
-than the original form (which was a single space-separated string).
-}
-\details{
-Since words may have multiple pronunciations, this function always returns
-a list of character vectors - one for each pronunciation of the given word.
 }
 \examples{
 phonemes("cellar")
