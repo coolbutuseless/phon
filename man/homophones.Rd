@@ -7,20 +7,15 @@
 homophones(word, keep_stresses = FALSE)
 }
 \arguments{
-\item{word}{find homophones for this word}
+\item{word}{single word}
 
-\item{keep_stresses}{keep the stresses attached to each phonmeme? Default: FALSE
-If FALSE, more likely to find homophones, but emphasis may be different.}
+\item{keep_stresses}{keep the stresses attached to each phonmeme? Default: FALSE}
 }
 \value{
-character vector of homophones.
+Character vector of words which are homophones for the given word.
 }
 \description{
 Homophones are words with the same pronunciation but different spelling.
-}
-\details{
-This function finds the phonemes (without stresses) for the given word, and
-finds all other words with the same phonemes.
 }
 \examples{
 homophones("steak")

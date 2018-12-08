@@ -2,19 +2,19 @@
 % Please edit documentation in R/syllables.R
 \name{syllables}
 \alias{syllables}
-\title{Number of syllables in a word}
+\title{Calculate number of syllables in a word.}
 \usage{
-syllables(word, first_only = TRUE)
+syllables(word, all_pronunciations = FALSE)
 }
 \arguments{
-\item{word}{count syllables in these word}
+\item{word}{single word}
 
-\item{first_only}{If TRUE, only return the syllable count for the first pronunciation
-of the word, otherwise return all syllable counts for all
-pronunciations. Default: TRUE}
+\item{all_pronunciations}{If TRUE, return the syllable counts for all pronunciations,
+otherwise only return syllable count for the first pronunciation.
+Default: FALSE}
 }
 \value{
-Vector of counts of syllables in words. Returns \code{NA_Integer} if word
+Integer vector of counts of syllables in word. Returns \code{NA_Integer} if word
 is not in the CMU Pronouncing Dictionary.
 }
 \description{

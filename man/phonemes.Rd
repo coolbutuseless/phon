@@ -2,22 +2,22 @@
 % Please edit documentation in R/phonemes.R
 \name{phonemes}
 \alias{phonemes}
-\title{Return phonemes for the given word}
+\title{Return phonemes for the given word.}
 \usage{
 phonemes(word, keep_stresses = FALSE)
 }
 \arguments{
-\item{word}{word to lookup in CMU Pronouncing Dictionary}
+\item{word}{single word}
 
-\item{keep_stresses}{keep the phoneme stresses? default: FALSE}
+\item{keep_stresses}{keep the stresses attached to each phonmeme? Default: FALSE}
 }
 \value{
-Character vector. Each entry is one variation on
-        the pronunciation of the given word. The character vectors are the
-        ARPABET phonetic transcription codes of the word
+Vector of phoneme strings. Each string is one variation on
+        the pronunciation of the given word, represented as the
+        ARPABET phonetic transcription.
 }
 \description{
-This function returns the original phonemes as provided in \code{cmudict}.
+Return phonemes for the given word.
 }
 \examples{
 phonemes("cellar")

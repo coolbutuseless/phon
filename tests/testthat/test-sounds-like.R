@@ -10,6 +10,10 @@ test_that("sounds_like works", {
   expect_type(res, 'character')
   expect_true('stochastics' %in% res)
 
+  res <- sounds_like("statistics", phoneme_mismatches = 50, keep_stresses = TRUE)
+  expect_type(res, 'character')
+  expect_true('stochastics' %in% res)
+
 })
 
 

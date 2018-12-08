@@ -25,11 +25,11 @@ words. By matching the phonemes between words, `phon` provides
   - `homophones('steak')` - Returns words which are homophones of
     “steak”.
   - `rhymes('carry')` - Returns words which rhyme with “carry”.
-  - `sounds_like('statistics')` - Returns words with a similar sound to
-    “statistics” by limiting the mismatches in phonemes the other word
+  - `sounds_like('greater')` - Returns words with a similar sound to
+    “greater” by limiting the mismatches in phonemes the other word
     can have.
-  - `contains_phonemes(c('TH', 'R', 'UW'))` Returns words which contain
-    the given phoneme sequence.
+  - `contains_pronunciation('threw')` Returns words which contain the
+    the pronunciation of ‘threw’ within their pronunciation
   - `syllables("useless")` Returns the count of syllables in “useless”.
 
 This is a companion package to the [syn](http://syn.njtierney.com/)
@@ -100,23 +100,16 @@ phon::syllables("antidisestablishmentarianism")
 
 `phon` allows you to search for the sound of one word within another.
 
-In the following example, `phon::contains_phonemes()` finds all the
-words that include the pronunciation of *“through”* within their
-pronunciation.
+In the following example, `phon::contains_pronunciation_phonemes()`
+finds all the words that include the pronunciation of *“through”* within
+their pronunciation.
 
 ``` r
-through <- phon::phonemes("through")[[1]]
-through
-#> [1] "TH R UW"
-```
-
-``` r
-phon::contains_phonemes(through)
-#>  [1] "bathroom"      "bathrooms"     "bathrooms"     "breakthrough" 
-#>  [5] "breakthroughs" "drive-thru"    "drive-thrus"   "overthrew"    
-#>  [9] "threw"         "throop"        "through"       "throughout"   
-#> [13] "throughput"    "throughs"      "throughway"    "thru"         
-#> [17] "thruway"
+phon::contains_pronunciation('through')
+#>  [1] "bathroom"      "bathrooms"     "breakthrough"  "breakthroughs"
+#>  [5] "drive-thru"    "drive-thrus"   "overthrew"     "threw"        
+#>  [9] "throop"        "throughout"    "throughput"    "throughs"     
+#> [13] "throughway"    "thru"          "thruway"
 ```
 
 Use the `keep_stresses` argument to match with/without the stresses
@@ -149,26 +142,39 @@ The rhymes are returned in multiple vectors:
 <!-- end list -->
 
 ``` r
-phon::rhymes("drudgery")
+phon::rhymes("drudgery", min_phonemes = 2)
 ```
 
-    [[1]]
-     [1] "challengery"  "forgery"      "gingery"      "injury"       "margery"     
-     [6] "marjorie"     "marjory"      "menagerie"    "neurosurgery" "perjury"     
-    [11] "surgery"     
-    
-    [[2]]
-      [1] "acary"           "accessory"       "adoree"          "adultery"       
-      [5] "advisory"        "alimentary"      "alphandery"      "ambery"         
-      [9] .... (results trimmed)
+    rhyme_length         word
+                3  challengery
+                3      forgery
+                3      gingery
+                3       injury
+                3      margery
+                3     marjorie
+                3      marjory
+                3    menagerie
+                3 neurosurgery
+                3      perjury
+                3      surgery
+                2        acary
+                2    accessory
+                2       adoree
+                2     adultery
+                2     advisory
+                2   alimentary
+                2   alphandery
+                2       ambery
+                2        amery
+    ... [results trimmed]
 
 In the above example:
 
   - The phonemes for “drudgery” are “D R AH1 JH ER0 IY0”
-  - In the first vector, the words match the *-gery* sound, i.e the last
-    3 phonemes.
-  - In the second vector the words only match the *-ery* sound, i.e. the
-    last 2 phonemes.
+  - Where `rhyme_length == 3`, the words match the *-gery* sound, i.e
+    the last 3 phonemes.
+  - Where `rhyme_length == 2`, the words only match the *-ery* sound,
+    i.e. the last 2 phonemes.
 
 ## Similar sounding words
 

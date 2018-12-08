@@ -1,17 +1,13 @@
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Return phonemes for the given word
+#' Return phonemes for the given word.
 #'
-#' This function returns the original phonemes as provided in \code{cmudict}.
+#' @inheritParams homophones
 #'
-#'
-#' @param word word to lookup in CMU Pronouncing Dictionary
-#' @param keep_stresses keep the phoneme stresses? default: FALSE
-#'
-#' @return Character vector. Each entry is one variation on
-#'         the pronunciation of the given word. The character vectors are the
-#'         ARPABET phonetic transcription codes of the word
+#' @return Vector of phoneme strings. Each string is one variation on
+#'         the pronunciation of the given word, represented as the
+#'         ARPABET phonetic transcription.
 #'
 #' @examples
 #' phonemes("cellar")
@@ -22,10 +18,10 @@ phonemes <- function(word, keep_stresses = FALSE) {
 
   res <- unname(cmudict[names(cmudict) == word])
 
-  if (!keep_stresses) {
-    res <- remove_stresses(res)
+  if (keep_stresses) {
+    res
+  } else {
+    remove_stresses(res)
   }
-
-  res
 }
 

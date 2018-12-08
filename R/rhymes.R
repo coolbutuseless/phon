@@ -1,24 +1,18 @@
 
 
+rhymes_empty_df <- data.frame(rhyme_length = integer(0), word = character(0))
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Find rhymes for the given word
 #'
-#' To find rhymes, \code{phon} compares trailing phonemes i.e. if the phonemes at the end of a
-#' word in the dictionary match those at the end of the given word, then they rhyme.
+#' To find rhymes, \code{phon} compares trailing phonemes. Words rhyme with each
+#' other if they have the same phonemes at the end.
 #'
-#' The rhymes are returned in multiple vectors:
-#' \itemize{
-#' \item{Words with the most matching trailing phonemes are returned first.}
-#' \item{Subsequent vectors have fewer matching trailing phonemes.}
-#' \item{Words in earlier vectors are repeated in later vectors.}
-#' }
+#' @inheritParams homophones
+#' @param min_phonemes the minimum number of matching phonemes. Default: 3
 #'
-#' @param word word for which to find rhymes
-#' @param keep_stresses keep the phoneme stresses? default: FALSE
-#' @param min_phonemes the minimum number of matching phonemes. Default: 2L
-#'
-#' @return list of rhymes grouped by number of mathching trailing phonemes with
-#' the supplied word
+#' @return data.frame of rhymes with \code{rhyme_length} giving the number of
+#' trailing phonems which match the given word.
 #'
 #' @examples
 #' rhymes("drudgery")
@@ -26,10 +20,38 @@
 #' @import stringr
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-rhymes <- function(word, keep_stresses = FALSE, min_phonemes = 2L) {
+rhymes <- function(word, keep_stresses = FALSE, min_phonemes = 3L) {
 
-  # Ensure user can't set impossible value
-  min_phonemes <- max(c(min_phonemes, 1L))
+  phons <- phonemes(word, keep_stresses)
+  rhyms <- rhymes_phonemes(phons, keep_stresses, min_phonemes)
+
+  rhyms <- rhyms[rhyms$word != word,]
+  rhyms
+}
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Find rhymes for the given phoneme strings
+#'
+#' To find rhymes, \code{phon} compares trailing phonemes. Words rhyme with each
+#' other if they have the same phonemes at the end.
+#'
+#' @inheritParams homophones_phonemes
+#' @param min_phonemes the minimum number of matching phonemes. Default: 3
+#'
+#' @return data.frame of rhymes with \code{rhyme_length} giving the number of
+#' trailing phonems which match the given word.
+#'
+#' @examples
+#' rhymes_phonemes_single("D R AH1 JH ER0 IY0")
+#'
+#' @import stringr
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+rhymes_phonemes_single <- function(phons, keep_stresses = FALSE, min_phonemes = 3L) {
+
+  stopifnot(length(phons) == 1L)
+  phons <- sanitize_phons(phons)
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Choose the phons dictionary. With or without stresses?
@@ -38,62 +60,76 @@ rhymes <- function(word, keep_stresses = FALSE, min_phonemes = 2L) {
     phons_dict <- cmudict
   } else {
     phons_dict <- remove_stresses(cmudict)
-  }
-
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Find the phonemes for the given word, and create some space for the results
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  phons   <- phons_dict[names(cmudict) == word]
-  phons   <- strsplit(phons, "\\s")
-  lens    <- vapply(phons, length, integer(1L))
-  max_len <- max(lens)
-  res     <- vector('list', max_len)
-
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # For each possible pronunciation, find the rhymes and merge into
-  # a single rhyme list
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  for (this_phons in phons) {
-    if (length(this_phons) < min_phonemes) { next }
-    for (i in seq(length(this_phons), min_phonemes, -1L)) {
-      end_phons <- paste0(paste(tail(this_phons, i), collapse = " "), "$")
-
-      # idxs_with_matching_end_phons <- which(stringr::str_detect(phons_dict, end_phons))
-      idxs_with_matching_end_phons <- stringr::str_which(phons_dict, end_phons)
-
-      li <- max_len + 1L - i
-      res[[li]] <- c(res[[li]], setdiff(names(cmudict)[idxs_with_matching_end_phons], word))
-    }
+    phons      <- remove_stresses(phons)
   }
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Only keep non-empty rhyme vectors
+  # The rhyme search uses the phonemes string split into individiual phonemes
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  res <- Filter(function(x) {length(x) > 0L}, res)
+  phon_bits <- stringr::str_split(phons, "\\s+")[[1]]
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # if the number of phonemes is less that the min_phonemes for a rhyme,
+  # then return an empty data.frame
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (length(phon_bits) < min_phonemes) {
+    return( rhymes_empty_df )
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Pre-allocate space for the results
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  res <- vector('list', length(phon_bits))
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Search for each suffix.
+  #   - construct a search string consisting of the last N phonemes
+  #   - find words which end in with these phonemes
+  #   - repeat the process, but only search within words which already matched
+  #     at the smaller N phonemes
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  for (i in seq(min_phonemes, length(phon_bits))) {
+    end_phons  <- paste(tail(phon_bits, i), collapse = " ")
+    idxs       <- which(endsWith(phons_dict, end_phons))
+    phons_dict <- phons_dict[idxs]
+    if (length(phons_dict) == 0L) { break }
+    res[[i]]   <- data.frame(rhyme_length = i, word = names(phons_dict), stringsAsFactors = FALSE)
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Combine all results
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  res <- do.call('rbind', res)
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # If the results is somehow empty, return a standard empty results data.frame
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (is.null(res) || nrow(res) == 0L || ncol(res) == 0) {
+    return(rhymes_empty_df)
+  }
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Return the sorted rhyme vectors
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  lapply(res, sort)
+  res[with(res, order(-rhyme_length, word)), ]
 }
 
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname rhymes_phonemes_single
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+rhymes_phonemes <- function(phons, keep_stresses = FALSE, min_phonemes = 2L) {
+  phons <- sanitize_phons(phons)
 
 
+  res <- lapply(phons, rhymes_phonemes_single, keep_stresses, min_phonemes)
+  res <- do.call(rbind, res)
 
+  if (nrow(res) == 0L || ncol(res) == 0) {
+    return(rhymes_empty_df)
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
+  res[with(res, order(-rhyme_length, word)), ]
+}
 
