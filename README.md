@@ -32,6 +32,9 @@ words. By matching the phonemes between words, `phon` provides
     the pronunciation of ‘threw’ within their pronunciation
   - `syllables("useless")` Returns the count of syllables in “useless”.
 
+The `phon::cmudict` data is a named vector which lists all availables
+words along with their phoneme string.
+
 This is a companion package to the [syn](http://syn.njtierney.com/)
 package. `syn` finds related words based upon meanings, while `phon`
 finds related words based upon pronunciation.
@@ -190,7 +193,24 @@ phon::sounds_like("statistics", phoneme_mismatches = 5)
 
 ## CMU Pronouncing Dictionary
 
-This package relies on the great Pronouncing Dictionary by CMU.
+This package relies on the great Pronouncing Dictionary by CMU. You can
+access this data using
+
+``` r
+phon::cmudict[200:210]
+#>                  abductions                  abductions 
+#>  "AE0 B D AH1 K SH AH0 N Z"  "AH0 B D AH1 K SH AH0 N Z" 
+#>                    abductor                    abductor 
+#>       "AE0 B D AH1 K T ER0"       "AH0 B D AH1 K T ER0" 
+#>                   abductors                   abductors 
+#>     "AE0 B D AH1 K T ER0 Z"     "AH0 B D AH1 K T ER0 Z" 
+#>                     abducts                       abdul 
+#>         "AE0 B D AH1 K T S"             "AE0 B D UW1 L" 
+#>                   abdulaziz                     abdulla 
+#> "AE0 B D UW2 L AH0 Z IY1 Z"         "AA0 B D UW1 L AH0" 
+#>                    abdullah 
+#>         "AE2 B D AH1 L AH0"
+```
 
 ### CMU Pronouncing Dictionary Copyright notice
 

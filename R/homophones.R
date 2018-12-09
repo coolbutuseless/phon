@@ -22,19 +22,17 @@
 homophones_phonemes <- function(phons, keep_stresses = FALSE) {
 
   phons <- sanitize_phons(phons)
+  dict  <- choose_dict(keep_stresses)
 
-  if (keep_stresses) {
-    phons_dict <- cmudict
-  } else {
-    phons_dict <- remove_stresses(cmudict)
-    phons      <- remove_stresses(phons)
+  if (!keep_stresses) {
+    phons <- remove_stresses(phons)
   }
 
 
-  idxs <- lapply(phons, function(x) { which(phons_dict == x) })
+  idxs <- lapply(phons, function(x) { which(dict == x) })
   idxs <- sort(unique(unlist(idxs, use.names = FALSE)))
 
-  names(phons_dict[idxs])
+  names(dict[idxs])
 }
 
 
@@ -55,13 +53,8 @@ homophones_phonemes <- function(phons, keep_stresses = FALSE) {
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 homophones <- function(word, keep_stresses = FALSE) {
-  if (keep_stresses) {
-    phons_dict <- cmudict
-  } else {
-    phons_dict <- remove_stresses(cmudict)
-  }
-
-  phons <- phons_dict[names(cmudict) == word]
+  dict  <- choose_dict(keep_stresses)
+  phons <- dict[names(dict) == word]
   words <- homophones_phonemes(phons, keep_stresses)
 
   setdiff(words, word)

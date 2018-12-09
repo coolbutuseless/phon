@@ -52,15 +52,10 @@ rhymes_phonemes_single <- function(phons, keep_stresses = FALSE, min_phonemes = 
 
   stopifnot(length(phons) == 1L)
   phons <- sanitize_phons(phons)
+  dict  <- choose_dict(keep_stresses)
 
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Choose the phons dictionary. With or without stresses?
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  if (keep_stresses) {
-    phons_dict <- cmudict
-  } else {
-    phons_dict <- remove_stresses(cmudict)
-    phons      <- remove_stresses(phons)
+  if (!keep_stresses) {
+    phons <- remove_stresses(phons)
   }
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,10 +85,10 @@ rhymes_phonemes_single <- function(phons, keep_stresses = FALSE, min_phonemes = 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   for (i in seq(min_phonemes, length(phon_bits))) {
     end_phons  <- paste(tail(phon_bits, i), collapse = " ")
-    idxs       <- which(endsWith(phons_dict, end_phons))
-    phons_dict <- phons_dict[idxs]
-    if (length(phons_dict) == 0L) { break }
-    res[[i]]   <- data.frame(rhyme_length = i, word = names(phons_dict), stringsAsFactors = FALSE)
+    idxs       <- which(endsWith(dict, end_phons))
+    dict       <- dict[idxs]
+    if (length(dict) == 0L) { break }
+    res[[i]]   <- data.frame(rhyme_length = i, word = names(dict), stringsAsFactors = FALSE)
   }
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

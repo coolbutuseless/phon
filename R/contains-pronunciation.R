@@ -17,17 +17,15 @@
 contains_pronunciation_phonemes <- function(phons, keep_stresses = FALSE) {
 
   phons <- sanitize_phons(phons)
+  dict  <- choose_dict(keep_stresses)
 
-  if (keep_stresses) {
-    phons_dict <- cmudict
-  } else {
-    phons_dict <- remove_stresses(cmudict)
-    phons      <- remove_stresses(phons)
+  if (!keep_stresses) {
+    phons <- remove_stresses(phons)
   }
 
-  idxs <- stringr::str_which(phons_dict, phons)
+  idxs <- stringr::str_which(dict, phons)
 
-  names(phons_dict[idxs])
+  names(dict[idxs])
 }
 
 
@@ -46,7 +44,9 @@ contains_pronunciation_phonemes <- function(phons, keep_stresses = FALSE) {
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 contains_pronunciation <- function(word, keep_stresses = FALSE) {
-    phons <- cmudict[names(cmudict) == word]
+
+    dict  <- choose_dict(keep_stresses)
+    phons <- dict[names(dict) == word]
     words <- contains_pronunciation_phonemes(phons, keep_stresses)
     setdiff(words, word)
 }

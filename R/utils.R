@@ -36,3 +36,16 @@ sanitize_phons <- function(phons) {
   phons
 }
 
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Select the appropriate dictionary - with or without stresses?
+#' @param keep_stresses keep the stresses attached to each phonmeme?
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+choose_dict <- function(keep_stresses) {
+  if (keep_stresses) {
+    phon::cmudict
+  } else {
+    get('cmudict_san_stresses', envir = getOption("phon_env"))
+  }
+}

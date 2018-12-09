@@ -16,12 +16,9 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 phonemes <- function(word, keep_stresses = FALSE) {
 
-  res <- unname(cmudict[names(cmudict) == word])
+  dict  <- choose_dict(keep_stresses)
+  phons <- unname(dict[names(dict) == word])
 
-  if (keep_stresses) {
-    res
-  } else {
-    remove_stresses(res)
-  }
+  phons
 }
 

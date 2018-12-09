@@ -20,11 +20,7 @@ sounds_like_phonemes_single <- function(phons, keep_stresses = FALSE, phoneme_mi
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Select dict with/without stresses
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  if (keep_stresses) {
-    phons_dict <- cmudict
-  } else {
-    phons_dict <- remove_stresses(cmudict)
-  }
+  dict <- choose_dict(keep_stresses)
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # precalc the max length we're going to compare
@@ -44,7 +40,7 @@ sounds_like_phonemes_single <- function(phons, keep_stresses = FALSE, phoneme_mi
   #   - same number of phonemes, and
   #   - count of differences in phonemes <= phoneme_mismatches
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cmu_phons_split <- stringr::str_split(phons_dict, "\\s")
+  cmu_phons_split <- stringr::str_split(dict, "\\s")
   idxs <- seq_along(cmu_phons_split)
 
   idxs <- Filter(
@@ -56,7 +52,7 @@ sounds_like_phonemes_single <- function(phons, keep_stresses = FALSE, phoneme_mi
   )
 
 
-  names(phons_dict[idxs])
+  names(dict[idxs])
 }
 
 
@@ -94,13 +90,8 @@ sounds_like_phonemes <- function(phons, keep_stresses = FALSE, phoneme_mismatche
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 sounds_like <- function(word, keep_stresses = FALSE, phoneme_mismatches = 1L) {
 
-  if (keep_stresses) {
-    phons_dict <- cmudict
-  } else {
-    phons_dict <- remove_stresses(cmudict)
-  }
-
-  phons <- phons_dict[names(phons_dict) == word]
+  dict  <- choose_dict(keep_stresses)
+  phons <- dict[names(dict) == word]
   words <- sounds_like_phonemes(phons, keep_stresses, phoneme_mismatches)
 
   if (is.null(words)) {

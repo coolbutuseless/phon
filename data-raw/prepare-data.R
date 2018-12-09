@@ -61,13 +61,10 @@ cmudict <- setNames(cmu_phons_orig, cmu_words)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Save all the internal data
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# unlink(here::here("R/sysdata.rda"))
-usethis::use_data(cmudict, internal = TRUE, overwrite = TRUE, compress = 'xz')
+usethis::use_data(cmudict, internal = FALSE, overwrite = TRUE, compress = 'xz')
 
 
-file.size(here::here("R/sysdata.rda"))
-
-# load("R/sysdata.rda")
+file.size(here::here("data/cmudict.rda"))
 
 
 

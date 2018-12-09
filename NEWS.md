@@ -1,4 +1,9 @@
 
+# phon 0.1.3
+
+* Make `cmudict` data available to user
+
+
 # phon 0.1.2
 
 * Simpler internal data representation
